@@ -1,0 +1,41 @@
+---
+layout: default
+title: Contact Cards and SSL
+filename: null
+permalink: /contact-cards-ssl
+---
+<style>
+#map-container {
+  display: block;
+}
+path {
+  stroke: #fff;
+  stroke-width: 0.5;
+  opacity: 0.8;
+}
+g text {
+  font-family: "Verdana";
+  font-size: 10px;
+}
+circle {
+  fill: #d95f0e;
+  opacity: 0.6
+  /* Grayscale
+  fill: #252525; */
+}
+</style>
+<div class="row">
+  <div class="col-lg-12">
+    <h3>ISR Stops and Count SSL Scores by Arrest Location</h3>
+    <div class="row">
+      <div class="col-lg-6">
+        <h4>Description</h4>
+        <p>Lorem ipsum.</p>
+      </div>
+      <div class="col-lg-6">
+        <svg id="map-container"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{site.baseurl}}/js/ssl_isr_stops.js"></script>
