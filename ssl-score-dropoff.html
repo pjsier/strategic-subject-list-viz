@@ -1,0 +1,49 @@
+---
+layout: default
+title: SSL Score Dropoff by Sex, Race
+filename: null
+permalink: /ssl-score-dropoff
+---
+<style>
+#chart {
+  display: block;
+  width: 100%;
+  height: 400px;
+}
+text {
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+}
+.line {
+  fill: none;
+  stroke-width: 2;
+  stroke-opacity: 0.7;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+.mouse-tooltip {
+  font-weight: bold;
+  text-anchor: middle;
+}
+</style>
+<div class="row">
+  <div class="col-lg-12">
+    <h3>SSL Score Dropoff (Chicago) Ages 20-29 by Sex, Race</h3>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4>Description</h4>
+        <p>Demonstrating the score dropoffs by sex and race. The Y axis is the number
+        of people from the designated group with SSL scores at or above the X axis
+        score. Hover over the chart to see the exact counts by group for each score.</p>
+      </div>
+    </div>
+    <div>
+      <div class="col-lg-12">
+        <svg id="chart"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{site.baseurl}}/js/ssl_score_dropoff.js"></script>
