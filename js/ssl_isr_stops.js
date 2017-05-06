@@ -118,7 +118,7 @@ function ready(error, json, cards) {
 
 (function() {
   d3.queue()
-    .defer(d3.json, baseUrl + "/data/chi_census_tracts_by_ssl_arrest.geojson")
-    .defer(d3.csv, baseUrl + "/data/chi_contact_cards.csv")
+    .defer(d3.json, baseUrl + "/data/chi_census_tracts.geojson")
+    .defer(d3.csv, baseUrl + "/data/contact_cards.csv")
     .await(ready);
 })()
