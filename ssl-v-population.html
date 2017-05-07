@@ -1,0 +1,36 @@
+---
+layout: default
+title: Chicago Population with SSL Scores Against Total
+filename: null
+permalink: /ssl-v-population
+---
+<style>
+#chart {
+  display: block;
+  width: 100%;
+  height: 400px;
+}
+text {
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+}
+</style>
+<div class="row">
+  <div class="col-lg-12">
+    <h3>SSL Proportion Compared to Demographic Representation in Chicago Population</h3>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4>Description</h4>
+        <p>Stacked bar chart with number of individuals with SSL scores ages 20-29
+        in Chicago as parts of their total population representation according to
+        the 2015 American Community Survey.</p>
+      </div>
+    </div>
+    <div>
+      <div class="col-lg-12">
+        <svg id="chart"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{site.baseurl}}/js/stacked_bar_ssl_v_pop.js"></script>

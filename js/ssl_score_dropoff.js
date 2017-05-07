@@ -1,5 +1,5 @@
 // Margin convention from https://bl.ocks.org/mbostock/3019563
-var margin = {top: 20, right: 10, bottom: 20, left: 50};
+var margin = {top: 50, right: 10, bottom: 50, left: 50};
 var width = parseInt(d3.select("#chart").style("width")) - margin.left - margin.right;
 var height = parseInt(d3.select("#chart").style("height")) - margin.top - margin.bottom;
 var svg = d3.select("#chart")
@@ -14,8 +14,10 @@ var x = d3.scaleLinear()
 var y = d3.scaleLinear()
   .rangeRound([height, 0]);
 var z = d3.scaleOrdinal(d3.schemeCategory10);
-var RACE_SEX_GROUPS = ["Black Men 20-29", "Black Women 20-29", "Hispanic Men 20-29",
-          "Hispanic Women 20-29", "White Men 20-29", "White Women 20-29"]
+var RACE_SEX_GROUPS = [
+  "Black Men 20-29", "Black Women 20-29", "Hispanic Men 20-29",
+  "Hispanic Women 20-29", "White Men 20-29", "White Women 20-29"
+];
 z.domain(RACE_SEX_GROUPS);
 
 var line = d3.line()
@@ -33,6 +35,7 @@ function resize() {
   svg.selectAll('.line')
     .attr("d", function(d) { return line(d.values); });
   svg.select(".x.axis").call(d3.axisBottom(x));
+  svg.select(".x.axis text.axis-label").attr("x", width/2);
   svg.select(".y.axis").call(d3.axisLeft(y));
   svg.select(".g-legend").attr("transform", "translate(" + (width-150) +  ",25)");
   svg.select(".overlay")
@@ -66,9 +69,26 @@ function ready(data) {
     .attr("class", "x axis")
     .call(d3.axisBottom(x));
 
+  svg.select(".x.axis").append("text")
+    .attr("x", width/2)
+    .attr("y", 35)
+    .attr("class", "axis-label")
+    .attr("fill", "#000")
+    .attr("font-weight", "bold")
+    .attr("text-anchor", "middle")
+    .text("SSL Score");
+
   svg.append("g")
     .attr("class", "y axis")
     .call(d3.axisLeft(y));
+
+  svg.select(".y.axis").append("text")
+    .attr("x", -45)
+    .attr("y", -20)
+    .attr("fill", "#000")
+    .attr("font-weight", "bold")
+    .attr("text-anchor", "start")
+    .text("# At or Above SSL Score");
 
   var groupLegend = svg.append("g")
     .attr("transform", "translate(" + (width-150) + ",20)")
