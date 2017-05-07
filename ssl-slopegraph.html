@@ -1,0 +1,48 @@
+---
+layout: default
+title: SSL Slopegraph Dropoff by Sex, Race
+filename: null
+permalink: /ssl-slope-dropoff
+---
+<style>
+#chart {
+  display: block;
+  width: 100%;
+  height: 700px;
+}
+text {
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+}
+.line {
+  fill: none;
+  stroke-width: 2;
+  stroke-opacity: 0.7;
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+.mouse-tooltip {
+  font-weight: bold;
+  text-anchor: middle;
+}
+</style>
+<div class="row">
+  <div class="col-lg-12">
+    <h3>SSL Score Slope Dropoff (Chicago) Ages 20-29 by Sex, Race</h3>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4>Description</h4>
+        <p>Demonstrating the score dropoffs by sex and race. Shows number of individuals
+        at left score, with a line drawn to right score by demographic.</p>
+      </div>
+    </div>
+    <div>
+      <div class="col-sm-6">
+        <svg id="chart"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{site.baseurl}}/js/ssl_slopegraph.js"></script>
