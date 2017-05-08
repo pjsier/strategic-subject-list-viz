@@ -1,4 +1,3 @@
-// Adapted from https://bl.ocks.org/mbostock/4063582
 // Margin convention from https://bl.ocks.org/mbostock/3019563
 var margin = {top: 30, right: 25, bottom: 50, left: 25};
 var width = parseInt(d3.select("#chart").style("width")) - margin.left - margin.right;
