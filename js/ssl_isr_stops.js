@@ -11,7 +11,7 @@ var projection = d3.geoMercator().scale(1).translate([0,0]);
 var path = d3.geoPath().projection(projection);
 var hexbin = d3.hexbin()
     .size([width, height])
-    .radius(8);
+    .radius(10);
 
 function ready(error, json, cards) {
   var bounds = path.bounds(json);
