@@ -11,7 +11,7 @@ var projection = d3.geoMercator().scale(1).translate([0,0]);
 var path = d3.geoPath().projection(projection);
 var hexbin = d3.hexbin()
     .size([width, height])
-    .radius(10);
+    .radius(8);
 
 function ready(error, json, cards) {
   var bounds = path.bounds(json);
@@ -41,9 +41,9 @@ function ready(error, json, cards) {
   });
 
   var hexbinData = hexbin(cards).sort(function(a, b) { return b.length - a.length; });
-  var radius = d3.scaleLinear()
+  var radius = d3.scaleSqrt()
       .domain([0, hexbinData[0].length])
-      .range([0, 10]);
+      .range([0, 6]);
 
   var cardFeature = svg.append("g")
     .selectAll("circle")
