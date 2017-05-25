@@ -117,7 +117,7 @@ function resize() {
   svg.selectAll(".y.axis .domain")
     .style("opacity", 0);
   svg.selectAll(".y.axis .tick line")
-    .style("opacity", 0.7)
+    .style("stroke-opacity", 0.3)
     .style("stroke-width", 0.5);
 
   svg.append("g")
