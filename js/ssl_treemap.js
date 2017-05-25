@@ -19,13 +19,40 @@ var fader = function(color) { return d3.interpolateRgb(color, "#fff")(0.2); },
 
 var treemap = d3.treemap()
     .tile(d3.treemapSquarify.ratio(1))
-    // .tile(d3.treemapResquarify)
     .size([width, height])
     .round(true)
     .paddingInner(1);
 
-// TODO:
-// - Add tooltips on both hover and click
+
+function manageTooltip(sel) {
+  var tooltip = d3.select("#tooltip");
+  sel.on("mouseover", function(d){
+    tooltip.style("visibility", "visible")
+      .html("<p>" + d.parent.parent.data.key + " " + d.parent.data.key + " " +
+        d.data.key + "<br><b>Count</b>: " + format(d.data.value) + "</p>")
+  })
+  .on("mousemove", function(){
+    var pagePad = 10;
+    var elPad = 200;
+    if (event.pageY < (window.innerHeight - elPad)) {
+      tooltip.style("bottom", null);
+      tooltip.style("top", (event.pageY-pagePad)+"px");
+    }
+    else {
+      tooltip.style("top", null);
+      tooltip.style("bottom", (window.innerHeight-event.pageY+pagePad)+"px");
+    }
+    if (event.pageX < (window.innerWidth - elPad)) {
+      tooltip.style("right", null);
+      tooltip.style("left", (event.pageX + 10)+"px");
+    }
+    else {
+      tooltip.style("left", null);
+      tooltip.style("right", (window.innerWidth-event.pageX+pagePad)+"px");
+    }
+  })
+  .on("mouseout", function(){ tooltip.style("visibility", "hidden"); });
+}
 
 
 function updateLabels() {
@@ -71,6 +98,7 @@ function updateLabels() {
 function updateData() {
   var data = csvData;
   var scoreData = data.filter(function(d) { return (d.ssl_score >= scoreNum) && (d.sex != "Other"); });
+  d3.select("#totalVal").text(format(d3.sum(scoreData, function(d) { return d.count; })));
   var scoreNest = d3.nest()
     .key(function(d) { return d.race; })
     .key(function(d) { return d.sex; })
@@ -110,7 +138,8 @@ function updateLayout() {
   var leavesEnter = leaves.enter()
     .append("g")
       .attr("class", "leaves")
-      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+      .call(manageTooltip);
 
   var rectLeaves = leavesEnter.append("rect")
     .attr("id", function(d) { return d.data.id; })
@@ -130,8 +159,6 @@ function updateLayout() {
     .attr("y", 14)
     .text(function(d) { return d.data.key; });
 
-  leavesEnter.append("title")
-    .text(function(d) { return d.data.key + "\n" + format(d.data.value); });
   updateLabels();
 
   // UPDATE SELECTION FOR CHANGED INFO
@@ -160,12 +187,23 @@ d3.csv(baseUrl + '/data/treemap_ssl_groups.csv', function(error, data) {
   svg.append("g").attr("class", "background");
   svg.append("g").attr("class", "titles");
 
+  var tooltip = d3.select("body")
+    .append("div")
+      .attr("id", "tooltip")
+      .style("visibility", "hidden")
+      .style("font-size", "16px")
+      .style("padding", "10px")
+      .style("z-index", "10")
+      .style("position", "absolute")
+      .style("background-color", "rgba(221,221,221,0.8)");
+
   var leaves = leafG.selectAll("g.leaves")
     .data(root.leaves(), function(d) { return d.data.id; })
     .enter()
     .append("g")
       .attr("class", "leaves")
-      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+      .call(manageTooltip);
 
   leaves.append("rect")
     .attr("id", function(d) { return d.data.id; })
@@ -185,10 +223,8 @@ d3.csv(baseUrl + '/data/treemap_ssl_groups.csv', function(error, data) {
     .attr("y", 14)
     .text(function(d) { return d.data.key; });
 
-  leaves.append("title")
-    .text(function(d) { return d.data.key + "\n" + format(d.data.value); });
-
   updateLabels();
+
   d3.select(window).on("resize", updateData);
   d3.select("#scoreInput").on("input", function () {
     var el = document.getElementById("scoreInput");

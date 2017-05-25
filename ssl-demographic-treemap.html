@@ -25,12 +25,15 @@ g.background text {
   font-size: 12px;
   font-weight: bold;
 }
+#indivHeader {
+  float: right;
+}
 </style>
 <div class="row">
   <div class="col-lg-12">
     <h3>SSL Demographics Treemap</h3>
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-10">
         <h4>Description</h4>
         <p>Treemap arranging sizes by count of individuals with SSL scores. Each
         rectangle represents a individuals grouped by race, sex, and age group, and
@@ -42,8 +45,11 @@ g.background text {
       </div>
     </div>
     <div>
-      <div class="col-lg-12">
-        <h4>SSL Score >= <span id="scoreVal">0</span></h4>
+      <div class="col-lg-10">
+        <h4>
+          <span>SSL Score >= <span id="scoreVal">0</span></span>
+          <span id="indivHeader"><span id="totalVal"></span> People</span>
+        </h4>
         <input type="range" min="0" max="500" value="0" id="scoreInput">
         <svg id="chart" width="960" height="570"></svg>
       </div>
