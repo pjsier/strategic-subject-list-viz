@@ -25,10 +25,7 @@ var treemap = d3.treemap()
     .paddingInner(1);
 
 // TODO:
-// - Figure out what is going on with resizing changing colors, label centers
 // - Add tooltips on both hover and click
-// - Logic for when overall segment labels should disappear
-// - Try to resize only when slider is let go
 
 
 function updateLabels() {
@@ -37,10 +34,6 @@ function updateLabels() {
 
   backG.selectAll("text").remove();
   titleG.selectAll("text").remove();
-
-  if (width <= 300) {
-    return;
-  }
 
   root.children.forEach(function(c1) {
     c1.children.forEach(function(c2) {
@@ -94,7 +87,7 @@ function updateData() {
       }
     })
     .sum(function(d) { return d.value; })
-    .sort(function(a, b) { return b.height - a.height || b.value - a.value;; });
+    .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
 
   updateLayout();
 }
@@ -107,19 +100,10 @@ function updateLayout() {
   treemap.size([width, height]);
   treemap(root);
 
-  var leafG = svg.selectAll("g.leafgroup")
-  var leaves = leafG.selectAll("g.leaves").data(root.leaves());
+  var leafG = svg.select("g.leafgroup")
+  var leaves = leafG.selectAll("g.leaves")
+    .data(root.leaves(), function(d) { return d.data.id; });
   leaves.exit().remove();
-
-  // UPDATE SELECTION FOR CHANGED INFO
-
-  var leavesTransition = leaves.transition()
-      .duration(300)
-      .ease(d3.easeQuadInOut)
-      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
-    .select("rect")
-      .attr("width", function(d) { return d.x1 - d.x0; })
-      .attr("height", function(d) { return d.y1 - d.y0; });
 
   // RE-ADD INFORMATION FOR NEW DATA
 
@@ -149,6 +133,16 @@ function updateLayout() {
   leavesEnter.append("title")
     .text(function(d) { return d.data.key + "\n" + format(d.data.value); });
   updateLabels();
+
+  // UPDATE SELECTION FOR CHANGED INFO
+
+  var leavesTransition = leaves.transition()
+      .duration(300)
+      .ease(d3.easeQuadInOut)
+      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+    .select("rect")
+      .attr("width", function(d) { return d.x1 - d.x0; })
+      .attr("height", function(d) { return d.y1 - d.y0; });
 }
 
 
@@ -167,7 +161,7 @@ d3.csv(baseUrl + '/data/treemap_ssl_groups.csv', function(error, data) {
   svg.append("g").attr("class", "titles");
 
   var leaves = leafG.selectAll("g.leaves")
-    .data(root.leaves())
+    .data(root.leaves(), function(d) { return d.data.id; })
     .enter()
     .append("g")
       .attr("class", "leaves")
